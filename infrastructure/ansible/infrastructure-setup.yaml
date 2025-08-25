@@ -1,0 +1,51 @@
+- name: Setup infrastructure
+  hosts: all
+  become: yes
+  vars_files:
+    - vars.yaml 
+
+  tasks:
+    - name: Create deploy directory
+      file:
+        path: /opt/app
+        state: directory
+        mode: '0755'
+    
+    - name: Copy docker-compose.yaml
+      copy:
+        src: ./scripts/docker-compose.yaml
+        dest: /opt/app/docker-compose.yaml
+        mode: '0644'
+    
+    - name: Copy .env-backend
+      copy:
+        src: ./scripts/.env-backend
+        dest: /opt/app/.env-backend
+        mode: '0644'
+
+    - name: Copy .env-frontend
+      copy:
+        src: ./scripts/.env-frontend
+        dest: /opt/app/.env-frontend
+        mode: '0644'
+
+    - name: Copy nginx password
+      copy:
+        src: ./scripts/.htpasswd
+        dest:  /opt/app/.htpasswd
+        owner: root      
+        group: root      
+        mode: '0644'     
+    
+    - name: Copy nginx.conf
+      copy:
+        src: ./scripts/nginx.conf
+        dest: /opt/app/nginx.conf
+        mode: '0644'
+    
+    - name: Pull ans start
+      shell: |
+          sudo REGISTRY_ID={{ yc_registry_id }} docker compose pull
+          sudo REGISTRY_ID={{ yc_registry_id }} docker compose up -d --force-recreate
+      args:
+        chdir: /opt/app

@@ -1,0 +1,31 @@
+- name: Setup YC CLI and Docker Registry
+  hosts: all
+  become: yes
+  vars_files:
+    - vars.yaml
+    
+  tasks:
+    - name: Create key.json on remote host
+      copy:
+        content: "{{ yc_service_account_key }}"
+        dest: /root/key.json
+        mode: '0600'
+
+    - name: Install YC CLI
+      shell: |
+        curl -o ./yc-install.sh -L https://storage.yandexcloud.net/yandexcloud-yc/install.sh | bash -s -- -a
+        echo 'source /root/yandex-cloud/completion.zsh.inc' >>  ~/.zshrc
+        chmod +x ./yc-install.sh && ./yc-install.sh -i /tmp/yc -n && mv /tmp/yc/bin/yc /usr/bin/yc
+      args:
+        executable: /bin/bash
+    
+    - name: Docker Credential helper
+      shell: |
+        yc config profile create sa-docker
+        yc config set service-account-key /root/key.json
+        yc config set format json
+        yc config set folder-id {{ yc_folder_id }}
+        yc container registry configure-docker --profile sa-docker
+      args:
+        executable: /bin/bash
+  

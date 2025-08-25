@@ -1,0 +1,30 @@
+- name: Setup infrastructure
+  hosts: production
+  become: yes
+  vars_files:
+    - vars.yaml 
+
+  tasks:
+    - name: Registry init
+      shell: yc container registry configure-docker --profile sa-docker
+      args:
+        chdir: /opt/app
+
+    - name: Pull new images
+      shell: sudo REGISTRY_ID={{ yc_registry_id }} docker compose pull
+      args:
+        chdir: /opt/app
+
+    - name: Restart updated backend
+      shell: |
+        sudo REGISTRY_ID={{ yc_registry_id }} docker compose up backend-1 -d
+        sudo REGISTRY_ID={{ yc_registry_id }} docker compose up backend-2 -d
+      args:
+        chdir: /opt/app
+      
+    - name: Restart updated frontend
+      shell: |
+        sudo REGISTRY_ID={{ yc_registry_id }} docker compose up frontend-1 -d
+        sudo REGISTRY_ID={{ yc_registry_id }} docker compose up frontend-2 -d
+      args:
+        chdir: /opt/app
