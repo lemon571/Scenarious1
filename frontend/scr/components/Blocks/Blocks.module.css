@@ -1,0 +1,68 @@
+.blocksContainer {
+  --comments-width: 360px;
+  --comments-gap: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: calc(100% - var(--comments-width) - var(--comments-gap));
+  position: relative;
+}
+
+.timelineRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+.timelineContent {
+  min-width: 0;
+}
+
+/* Overlay comments */
+.floatingComment {
+  position: absolute;
+  z-index: 10;
+  transition:
+    top 0.25s ease,
+    left 0.25s ease;
+  width: var(--comments-width);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.floatingCommentEnter {
+  transform: translateX(0);
+  opacity: 1;
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.2s ease,
+    opacity 0.2s ease,
+    top 0.2s ease,
+    left 0.2s ease;
+}
+
+.floatingCommentHidden {
+  opacity: 0.5;
+  transition:
+    box-shadow 0.3s ease,
+    opacity 0.2s ease,
+    top 0.2s ease;
+  z-index: 5;
+}
+
+/* Responsive design */
+@media (max-width: 1024px) {
+  .timelineRow {
+    grid-template-columns: 1fr;
+  }
+
+  .commentSlot {
+    width: 100%;
+    margin-top: 12px;
+  }
+
+  .commentBlock {
+    position: static;
+  }
+}

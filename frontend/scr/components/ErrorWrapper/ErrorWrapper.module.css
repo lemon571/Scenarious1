@@ -1,0 +1,12 @@
+.errorContainer .button {
+  opacity: 0;
+  margin-bottom: -30px;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.errorContainer:hover .button {
+  pointer-events: all;
+  opacity: 1;
+  margin-bottom: 0;
+}

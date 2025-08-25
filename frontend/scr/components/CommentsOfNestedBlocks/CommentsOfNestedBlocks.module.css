@@ -1,0 +1,28 @@
+.actionIcons {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.commentInfo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.commentCardContainer {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  padding: 10px 16px 10px 16px;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.commentCardContainer:hover {
+  background-color: #0000000d;
+}
+
+.iconColor {
+  color: #00000080;
+}

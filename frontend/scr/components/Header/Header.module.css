@@ -1,0 +1,32 @@
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* .button {
+  width: 36px !important;
+  height: 36px !important;
+  padding: 4px;
+} */
+
+.rightPanel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+:global(.g-dropdown-menu__switcher-wrapper) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.notificationPopover {
+  /* margin-right: 125px; */
+}
+
+.supportPopover {
+  /* margin-right: 160px; */
+}

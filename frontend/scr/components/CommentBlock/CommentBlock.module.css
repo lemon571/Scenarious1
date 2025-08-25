@@ -1,0 +1,132 @@
+.commentsWrapper {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.commentCard {
+  display: inline-flex;
+  flex-direction: column;
+  /* gap: 8px; */
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--g-color-base-generic-accent-disabled);
+  background-color: var(--g-color-base-background);
+  min-width: var(--comments-width, 360px);
+  max-width: var(--comments-width, 360px);
+  transition: max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: none !important;
+  overflow: visible;
+}
+
+.comments {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+
+.comments.unvisible {
+  gap: 0;
+}
+
+/* Collapsed: hide all children except the first top-level comment */
+.comments.unvisible > * {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  pointer-events: none;
+  visibility: hidden;
+  transition:
+    max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 0.4s,
+    pointer-events 0.4s;
+}
+
+.comments.unvisible > :first-child {
+  max-height: 500px;
+  opacity: 1;
+  overflow: visible;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+/* Replies container: animate and show only in expanded state */
+.replies {
+  transition:
+    max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s,
+    visibility 0.3s,
+    margin-top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.comments.unvisible .replies {
+  max-height: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  margin-top: 0;
+}
+
+.comments.visible > * {
+  max-height: 500px;
+  opacity: 1;
+  overflow: visible;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.replyCommentsWrapper {
+  width: 100%;
+  transition:
+    max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s,
+    visibility 0.3s,
+    margin-top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.replyInputHidden {
+  max-height: 0;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  margin-top: 0;
+}
+
+.replyInputVisible {
+  max-height: 80px;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  margin-top: 4px;
+}
+
+/* .replyInputWrapper {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  margin-top: 4px;
+  padding-right: 8px;
+}
+
+.avatarButtonComment {
+  width: 30px;
+  height: 30px;
+  border-radius: 30px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sendComment {
+  width: 20px;
+  height: 20px;
+
+  cursor: pointer;
+} */

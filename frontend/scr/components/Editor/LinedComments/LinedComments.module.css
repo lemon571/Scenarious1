@@ -1,0 +1,30 @@
+.commentTooltip {
+  position: absolute;
+  z-index: 10;
+  transition:
+    top 0.25s ease,
+    left 0.25s ease;
+  width: var(--comments-width, 300px);
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.enter {
+  transform: translateX(0);
+  opacity: 1;
+  transition:
+    box-shadow 0.3s ease,
+    transform 0.2s ease,
+    opacity 0.2s ease,
+    top 0.2s ease,
+    left 0.2s ease;
+}
+
+.hidden {
+  opacity: 0.5;
+  transition:
+    box-shadow 0.3s ease,
+    opacity 0.2s ease,
+    top 0.2s ease;
+  z-index: 5;
+}

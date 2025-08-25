@@ -1,0 +1,61 @@
+.container {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.wrapper {
+  display: inline-flex;
+}
+
+.trigger {
+  border-radius: 50%;
+  border: 3px solid #7b90a3; /* ring */
+  background-clip: padding-box;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+}
+
+.color {
+  width: 28px;
+  height: 28px;
+  border: 2px solid #fff;
+  box-shadow: 0 0 0 2px rgb(0, 0, 0);
+  border-radius: 50%;
+}
+
+.miniColor {
+  width: 25px;
+  height: 25px;
+  border: 2px solid #fff;
+  padding: 0 !important;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+.miniColor.selected {
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.miniColor:hover {
+  transform: scale(1.1);
+}
+
+.miniColor::before,
+.miniColor::after,
+.color::before,
+.color::after {
+  content: none !important;
+}
+
+.palette {
+  display: flex;
+  gap: 12px;
+  padding: 10px 14px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.selected {
+  border-color: #5e7488;
+}

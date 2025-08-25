@@ -1,0 +1,8 @@
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+.actionNotification {
+  color: #348bdc;
+}

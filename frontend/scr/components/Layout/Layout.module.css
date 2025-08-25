@@ -1,0 +1,26 @@
+.layout {
+  display: flex;
+  gap: 4px;
+  height: fit-content !important;
+}
+
+.main {
+  width: 100%;
+  height: calc(100vh - 16 * 2px);
+  /* padding: 24px; */
+  background-color: var(--g-color-base-background);
+  overflow-y: auto;
+  border-radius: 0 18px 18px 0;
+}
+
+/* :global(.gn-aside-header__aside-content) {
+  padding: 32px 16px;
+}
+
+:global(.gn-aside-header__aside) {
+  width: fit-content !important;
+}
+
+:global(.gn-aside-header__header) {
+  align-items: center;
+} */

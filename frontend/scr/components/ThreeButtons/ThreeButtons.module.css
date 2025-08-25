@@ -1,0 +1,45 @@
+.buttonGroup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+}
+
+.toastBlock {
+  display: flex;
+  align-items: center;
+  margin-bottom: 30px;
+  margin-right: 30px;
+}
+
+.toastContainer {
+  min-height: unset !important;
+}
+
+.commentPopover {
+  margin-right: 92px;
+}
+
+.filterPopover {
+  width: 350px;
+  margin-right: 135px;
+}
+
+.popoverItem {
+  width: 370px;
+  padding: 10px;
+}
+
+.popoverTitle {
+  display: flex;
+  flex-direction: column;
+}
+
+.popoverText {
+  margin-bottom: 7px;
+}
+
+.select {
+  margin-bottom: 12px;
+}

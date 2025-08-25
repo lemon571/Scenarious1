@@ -1,0 +1,65 @@
+.wrapper {
+  --version-tab-width: 400px;
+  position: relative;
+  z-index: 10;
+  min-width: var(--version-tab-width);
+  width: var(--version-tab-width);
+  overflow-x: hidden;
+  background-color: var(--g-color-base-generic-ultralight);
+  transition: all 0.3s ease;
+  animation: appearing 0.3s ease;
+}
+
+@keyframes appearing {
+  0% {
+    width: 0;
+    min-width: 0px;
+  }
+
+  100% {
+    min-width: var(--version-tab-width);
+    width: var(--version-tab-width);
+  }
+}
+
+.wrapper.closed {
+  min-width: 0;
+  width: 0;
+}
+
+.content {
+  min-width: calc(var(--version-tab-width) - 36px);
+  padding: 18px;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 8px 8px;
+}
+
+.listSectionTitle {
+  padding: 8px;
+  color: var(--g-color-text-secondary);
+}
+
+.itemCard {
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.itemHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.time {
+  font-weight: 600;
+}
+
+.selected {
+  outline: 2px solid var(--g-color-line-brand);
+  border-radius: 12px;
+}

@@ -1,0 +1,14 @@
+.popover {
+  margin-right: 92px;
+  background-color: var(--g-color-base-background);
+}
+
+.popoverItem {
+  padding: 10px;
+}
+
+.popoverTitle {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 7px;
+}

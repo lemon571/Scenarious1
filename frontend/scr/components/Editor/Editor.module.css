@@ -1,0 +1,14 @@
+.editorContainer {
+  position: relative;
+  max-width: calc(100vw - var(--comment-width));
+}
+
+.commentsPanel {
+  max-width: max(360px, var(--comment-width));
+}
+
+.alertMsg {
+  position: fixed;
+  bottom: 24px;
+  right: 4%;
+}

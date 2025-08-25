@@ -1,0 +1,110 @@
+.inviteSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.inviteInput {
+  display: flex;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.accessSection {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.accessHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.userList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.userItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background: var(--g-color-base-background);
+  transition: all 0.3s ease;
+}
+
+.userStatus {
+  display: flex;
+  align-items: center;
+}
+
+.customSelectContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+}
+
+.customSelectContainer :global(.g-list__item) {
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  height: fit-content !important;
+}
+
+.customSelectContainer :global(.g-list__item_selected) {
+  background-color: var(--g-color-base-selection) !important;
+}
+
+.customSelectContainer :global(.g-select-list__option_colored) {
+  background: none;
+}
+
+.checkIcon {
+  color: var(--g-color-line-brand);
+  transform: scale(0.7);
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.customSelectContainer :global(.g-list__item_selected) .checkIcon {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.customSelectContainer :global(.g-list__items) > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.inviteFrame :global(.g-select-control__button::before) {
+  border: none !important;
+}
+
+.inviteFrame :global(.g-select) {
+  padding: 0.5rem 0;
+}
+
+.hiddenIcon {
+  margin-right: -28px;
+  pointer-events: none;
+  opacity: 0;
+  transition: all 0.3s ease;
+}
+
+.userItem:hover .hiddenIcon {
+  pointer-events: all;
+  margin-right: 0;
+  opacity: 1;
+}
+
+.userItem:hover {
+  background: var(--g-color-base-simple-hover);
+}

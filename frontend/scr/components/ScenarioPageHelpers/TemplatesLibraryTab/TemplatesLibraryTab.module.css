@@ -1,0 +1,33 @@
+.templatesLibrary :global(.g-list__item) {
+  padding: 8px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  height: fit-content !important;
+}
+
+.templatesLibrary :global(.g-list__item_selected) {
+  background-color: var(--g-color-base-selection) !important;
+}
+
+.templatesLibrary :global(.g-select-list__option_colored) {
+  background: none;
+}
+
+.templatesLibrary :global(.g-list__item_selected) .checkIcon {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.templatesLibrary :global(.g-list__items) > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* .templatesLibrary :global(.g-select-control__button::before) {
+  border: none !important;
+} */
+
+.templatesLibrary :global(.g-select) {
+  padding: 0.5rem 0;
+}

@@ -1,0 +1,22 @@
+.container {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100px;
+  min-width: 100px;
+  height: calc(100vh - 16 * 2px - 20 * 2px);
+  background-color: var(--g-color-base-background);
+  gap: 24px;
+  padding: 20px 0;
+  border-radius: 18px 0 0 18px;
+}
+
+.button {
+  width: 44px;
+  height: 44px;
+  padding-top: 5px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

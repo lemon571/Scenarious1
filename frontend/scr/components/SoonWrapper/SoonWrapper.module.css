@@ -1,0 +1,18 @@
+.soon {
+  position: relative;
+  min-width: 600px;
+}
+
+.soonMessage {
+  align-items: center;
+  position: absolute;
+  z-index: 10;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.soonBlur {
+  filter: blur(5px);
+  pointer-events: none;
+}

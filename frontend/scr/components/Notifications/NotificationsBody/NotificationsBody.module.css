@@ -1,0 +1,14 @@
+.bodyText {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 12px;
+
+  gap: 8px;
+}
+
+.bodyDescription {
+  text-align: center;
+  white-space: normal;
+}

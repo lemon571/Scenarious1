@@ -1,0 +1,64 @@
+/* Event_card */
+.eventCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  padding: 16px;
+  gap: 24px;
+
+  border-radius: 18px;
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+
+  padding: 0px;
+  gap: 8px;
+  width: 100%;
+}
+
+.cardFooter {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0px;
+  gap: 48px;
+  width: 100%;
+}
+
+.eventHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 0px;
+  gap: 0.5rem;
+}
+
+.buttonGroup {
+  display: flex;
+  gap: 8px;
+}
+
+.buttonGroup.littleGap {
+  gap: 4px;
+}
+
+.popover {
+  padding: 1rem;
+  border-radius: 0.5rem !important;
+}
+
+.popIcon {
+  color: var(--g-color-line-brand);
+  transform: scale(0);
+  opacity: 0;
+  transition: all 0.5s ease;
+}
+
+.popIcon.iconChecked {
+  opacity: 1;
+  transform: scale(1);
+}

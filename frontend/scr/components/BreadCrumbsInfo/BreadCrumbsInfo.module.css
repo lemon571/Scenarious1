@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+}
+
+.text {
+  color: #30aa6e;
+}
+
+.button {
+  width: 28px;
+  height: 28px;
+  padding: 4px;
+}
+
+.icon {
+  transform: rotate(270deg);
+}
+
+.accessSettings {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.notificationsPopover {
+  margin-right: 83px;
+}

@@ -1,0 +1,23 @@
+.expandableContainer {
+  display: flex;
+  align-items: center;
+}
+.expandableText {
+  overflow: hidden;
+  transition: max-height 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: max-height;
+}
+
+.expandableText.collapsed {
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+}
+
+.expandableIcon {
+  transform: rotate(0);
+  transition: all 0.3s ease;
+}
+
+.expandableIcon.opened {
+  transform: rotate(180deg);
+}

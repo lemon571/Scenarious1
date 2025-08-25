@@ -1,0 +1,203 @@
+/* Main container structure */
+.blockContainer {
+  display: flex;
+  gap: 16px;
+}
+
+.timeBlock {
+  flex-shrink: 0;
+  width: 120px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.active {
+  border-bottom: 2px solid var(--g-color-line-brand);
+  background: var(--g-color-base-selection);
+}
+
+.eventsContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.eventBlock {
+  display: flex;
+  gap: 16px;
+  position: relative;
+}
+
+.thickLine {
+  width: 6px !important;
+}
+
+.location {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  line-height: 1.2;
+}
+
+.contentBlock {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 8px;
+  padding-left: 32px;
+  border-left: 6px solid #e5e7eb;
+}
+
+.blockBody {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.blockHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.icons {
+  opacity: 0;
+  pointer-events: none;
+  display: flex;
+  gap: 4px;
+  transition: all 0.3s ease;
+}
+
+.eventBlock:hover > .contentBlock > .icons {
+  opacity: 1;
+  gap: 4px;
+  pointer-events: all;
+}
+
+/* Description container and toggle button */
+.descriptionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.toggleButton {
+  align-self: flex-start;
+  color: var(--g-color-text-secondary);
+  font-size: 12px;
+  padding: 2px 8px;
+  min-height: 24px;
+  transition: all 0.2s ease;
+}
+
+.toggleButton:hover {
+  color: var(--g-color-text-primary);
+  background-color: var(--g-color-base-generic);
+}
+
+/* Child blocks styling */
+.childrenContainer {
+}
+
+.childEventBlock {
+  display: flex;
+  align-items: start;
+  gap: 12px;
+  padding: 8px 0;
+  margin-left: 32px;
+}
+
+.childContentBlock {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+
+  border-left: 3px solid #e5e7eb;
+
+  padding-left: 32px;
+}
+
+.childTags {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .blockContainer {
+    gap: 12px;
+  }
+
+  .timeBlock {
+    width: 100px;
+    padding-left: 12px;
+  }
+
+  .time {
+    font-size: 14px;
+  }
+
+  .title {
+    font-size: 13px;
+  }
+
+  .description {
+    font-size: 11px;
+  }
+}
+
+.printContainer {
+  /* Стили для экрана */
+}
+
+.printContainer .printButton {
+  /* Скрываем кнопку печати при печати */
+}
+
+.printContainer .cancelButton {
+  /* Скрываем кнопку отмены при печати */
+}
+
+.stickyButtons {
+  position: sticky;
+  width: fit-content;
+  background-color: #ffffff69;
+  box-shadow: 0 0 1px rgba(117, 117, 117, 0.393);
+  backdrop-filter: blur(8px);
+  border-radius: 18px;
+  bottom: 0;
+  padding: 1rem;
+  margin: 0 auto;
+}
+
+/* Стили для печати */
+@media print {
+  :global(body) {
+    height: 100% !important;
+    overflow: auto !important;
+  }
+
+  :global(#root) {
+    display: none !important;
+  }
+
+  :global(.g-modal) {
+    position: relative;
+  }
+
+  .printContainer .printButton {
+    display: none;
+  }
+}
