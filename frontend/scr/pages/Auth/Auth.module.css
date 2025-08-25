@@ -1,0 +1,73 @@
+.authContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--g-color-base-background);
+  border-radius: 18px;
+  height: calc(100vh - 32px);
+  gap: 16px;
+}
+
+.authContainer {
+  --g-button-text-color: var(--g-color-text-light-primary);
+  --g-button-text-color-hover: var(--g-color-text-light-primary);
+  --g-button-background-color: var(--g-color-text-primary);
+  --g-button-background-color-hover: var(--g-color-text-primary);
+}
+
+@media (prefers-color-scheme: dark) {
+  .authContainer {
+    --g-button-text-color: var(--g-color-text-primary);
+    --g-button-text-color-hover: var(--g-color-text-primary);
+    --g-button-background-color: var(--g-color-text-dark-primary);
+    --g-button-background-color-hover: var(--g-color-text-dark-primary);
+  }
+}
+
+.authContent {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  justify-content: center;
+  align-items: center;
+}
+
+.yandexLoginButton {
+  color: white;
+  background-color: var(--g-color-text-primary);
+}
+
+.logoTitleText {
+  color: #ffbe5c;
+}
+
+.logoTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+
+.greetingText {
+  font-size: 20px;
+  font-weight: 500;
+  margin-top: 25px;
+}
+
+.welcomeText {
+  text-align: center;
+  margin-top: 20px;
+  color: #00000080;
+}
+
+.yandexButtonText {
+  color: #ffffff;
+}
+
+.flexText {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}

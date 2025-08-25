@@ -1,0 +1,51 @@
+.homePage {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 36px;
+}
+
+.subheader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flexColumn {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.flex {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.searchPanel {
+  display: flex;
+  justify-content: space-between;
+}
+
+.searchPanel .searchLeft {
+  display: flex;
+  gap: 24px;
+  min-width: 60%;
+  max-width: calc(100% - 100px);
+}
+
+.searchInput {
+  min-width: 300px;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(335px, 1fr));
+  gap: 16px;
+}
+
+.searchIcon {
+  margin-left: 8px;
+  margin-right: 4px;
+  color: var(--g-color-text-secondary);
+}

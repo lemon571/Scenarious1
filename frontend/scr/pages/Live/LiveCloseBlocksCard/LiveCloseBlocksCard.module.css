@@ -1,0 +1,15 @@
+.card {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: fit-content;
+  width: 100%;
+  padding: 15px;
+  gap: 10px;
+}
+
+.container {
+  overflow-y: auto;
+  max-height: 288px;
+  /* height: 100%; */
+}

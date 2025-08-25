@@ -1,0 +1,48 @@
+.info {
+  margin-bottom: 10px;
+}
+
+.page {
+  display: flex;
+  max-height: 100vh;
+  padding: 15px;
+  border-radius: 20px;
+  background-color: var(--g-color-base-background);
+}
+
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.blocks {
+  flex: 1;
+  /* max-height: 530px; */
+}
+
+.alertOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* или center — зависит от желания */
+  z-index: 9999; /* выше всех */
+  pointer-events: none; /* позволяет кликать по закрытию */
+  padding-top: 20px;
+  box-sizing: border-box;
+}
+
+.alert {
+  pointer-events: auto; /* чтобы работали клики по алерту */
+  max-width: 400px;
+  width: 100%;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-radius: 8px;
+}
+
+#root {
+  background-color: white;
+}

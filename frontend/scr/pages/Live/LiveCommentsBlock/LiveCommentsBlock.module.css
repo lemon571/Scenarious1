@@ -1,0 +1,51 @@
+.commentCard {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  justify-content: space-between;
+  background-color: var(--g-color-base-background);
+  transition: max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: calc(100vh - 295px);
+}
+
+.comments {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+
+.replies {
+  transition:
+    max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s,
+    visibility 0.3s,
+    margin-top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.comments.visible > * {
+  max-height: 500px;
+  opacity: 1;
+  overflow: visible;
+  pointer-events: auto;
+  visibility: visible;
+}
+
+.replyCommentsWrapper {
+  width: 100%;
+  transition:
+    max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s,
+    visibility 0.3s,
+    margin-top 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.replyInputVisible {
+  max-height: 80px;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  margin-top: 4px;
+}
