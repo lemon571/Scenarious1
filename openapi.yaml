@@ -1,0 +1,1331 @@
+openapi: 3.0.1
+x-stoplight:
+  id: pltc035w6ahap
+info:
+  title: Blocks API
+  description: API для Scenariosus
+  version: 1.0.0
+servers:
+  - url: 'http://localhost:8080/'
+    description: Local server
+  - url: 'http://localhost:8080/'
+    description: Production server
+tags:
+  - name: blocks
+    description: Операции с блоками
+  - name: scenario
+    description: Операции со сценариями
+  - name: comments
+    description: Операции с комментариями
+  - name: templates
+    description: Операции с шаблонами
+  - name: auth
+    description: Операции с аутентификацией
+  - name: user
+    description: Операции с пользователями
+paths:
+  '/blocks/get-blocks-by-scenario-id/{scenario_id}':
+    get:
+      tags:
+        - blocks
+      summary: GetBlocksByScenarioId
+      description: Возвращает все блоки для указанного сценария
+      operationId: GetBlocksByScenarioId
+      parameters:
+        - name: scenario_id
+          in: path
+          description: ID сценария
+          required: true
+          schema:
+            type: string
+          example: cur_id
+        - schema:
+            type: integer
+          in: query
+          name: version_id
+          description: '0 если последняя, далее 1,2,3... Если не указать, вернет последнюю версию'
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Block'
+              examples:
+                success:
+                  value:
+                    - id: my-id
+                      title: suber-block
+                      location: hall
+                      start: 1675219600000
+                      duration: 100
+                      roles:
+                        - techinician
+                        - keker
+                        - loler
+                      children:
+                        - id: child-id
+                          title: child-block
+                          location: room
+                          start: 1675219600000
+                          duration: 150
+                          roles: []
+                          children: []
+                          comments: []
+                          description: Child block
+                      comments:
+                        - id: cmt4d5e6f
+                          author:
+                            name: Новичок
+                            avatar: ''
+                          description: Как правильно настроить репликасет для 5 нод?
+                          time: 1675219600000
+                          replies:
+                            - id: rep0x9y8z
+                              author:
+                                name: Опытный админ
+                                avatar: ''
+                              description: Рекомендую конфиг с 3 голосующими нодами и 2 арбитрами.
+                              time: 1675223200000
+                              replies: []
+                              block_id: blk2a3b4c
+                              scenario_id: scn1d2e3f
+                          block_id: blk2a3b4c
+                          scenario_id: scn1d2e3f
+                      description: This is the most important block of all blocks
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: Сценарий не найден
+          content:
+            application/json:
+              example:
+                error: Scenario not found
+      x-stoplight:
+        id: vwrs2nc77giri
+  '/blocks/{block_id}':
+    get:
+      tags:
+        - blocks
+      summary: GetBlockById
+      description: Возвращает блок по его ID
+      operationId: GetBlockById
+      parameters:
+        - name: block_id
+          in: path
+          description: ID блока
+          required: true
+          schema:
+            type: string
+          example: my-id
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Block'
+              examples:
+                success:
+                  value:
+                    _id: my-id
+                    title: suber-block
+                    location: hall
+                    start: 1675219600000
+                    duration: 100
+                    color: '#20B2AA'
+                    roles:
+                      - techinician
+                      - keker
+                      - loler
+                    children:
+                      - id: child-id
+                        title: child-block
+                        location: room
+                        start: 1675219600000
+                        duration: 30
+                        roles: []
+                        children: []
+                        comments: []
+                        description: Child block
+                    comments:
+                      - id: cmt1a2b3c
+                        author:
+                          name: Технический эксперт
+                          avatar: ''
+                        description: В документации есть неточность в разделе про индексы
+                        time: 1675123200000
+                        replies:
+                          - id: rep9z8y7x
+                            author:
+                              name: Модератор
+                              avatar: ''
+                            description: Спасибо за замечание! Исправим в следующем релизе.
+                            time: 1675126800000
+                            replies: []
+                            block_id: blk5f4e3d
+                            scenario_id: scn7g8h9i
+                        block_id: blk5f4e3d
+                        scenario_id: scn7g8h9i
+                    description: This is the most important block of all blocks
+        '401':
+          description: Unauthorized
+        '404':
+          description: Блок не найден
+          content:
+            application/json:
+              example:
+                error: Block not found
+      x-stoplight:
+        id: sv1o27wwrow2d
+    parameters:
+      - schema:
+          type: string
+        name: block_id
+        in: path
+        required: true
+    delete:
+      tags:
+        - blocks
+      summary: DeleteBlockById
+      responses:
+        '200':
+          description: Блок удален
+          content: {}
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Example 1:
+                  value:
+                    error: Block not found
+      operationId: DeleteBlockById
+      x-stoplight:
+        id: ia32nzhgb8gg7
+      description: Удаляет блок по его ID
+    patch:
+      tags:
+        - blocks
+      summary: UpdateBlockById
+      responses:
+        '200':
+          description: Successful update returns new block
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Block'
+        '400':
+          description: wrong strcture of data
+        '401':
+          description: Unauthorized
+        '404':
+          description: Block to update not found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+      operationId: patch-blocks-block_id
+      x-stoplight:
+        id: nwncj1on72sqh
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlockUpdate'
+      description: 'Updates block with given block_id. Updates the fields that were given in request, so you may pass only fields that you want to update. Ignores fields comments and children. Обновите внимание, что дополнительно в body нужно передавать scenario_id и, если блок дочерний, еще и parent_id'
+  '/blocks/{block_id}/children':
+    patch:
+      tags:
+        - blocks
+      summary: UpdateBlockChildren
+      description: Обновление дочерних блоков для указанного блока
+      operationId: UpdateBlockChildren
+      parameters:
+        - name: block_id
+          in: path
+          description: ID блока
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешное обновление
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Block'
+        '400':
+          description: Неверная структура данных
+        '401':
+          description: Unauthorized
+        '404':
+          description: Блок не найден
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Block'
+      x-stoplight:
+        id: update-block-children
+  '/blocks/latest/{scenario_id}/{block_id}':
+    parameters:
+      - schema:
+          type: string
+        name: scenario_id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: block_id
+        in: path
+        required: true
+    get:
+      tags:
+        - blocks
+      summary: GetLatestBlock
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Block'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: get-blocks-latest-scenario_id-block_id
+      x-stoplight:
+        id: mkno6ym2dzt99
+  '/blocks/{scenario_id}/{block_id}':
+    parameters:
+      - schema:
+          type: string
+        name: scenario_id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: block_id
+        in: path
+        required: true
+    post:
+      tags:
+        - blocks
+      summary: CreateBlock
+      responses:
+        '200':
+          description: Successfully created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Block'
+        '400':
+          description: Bad arguments
+        '401':
+          description: Unauthorized
+      operationId: CreateBlock
+      x-stoplight:
+        id: spyohllvx27ll
+      description: |-
+        Create block by its paramethers or from template. 
+        If there is a template - uses it, no matter how other arguments are passsed.
+
+        Пожалуйста, прокидывайте пустые массивы comments и children для корректной работы
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: template_id
+          description: id of template you want to use
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BlockCreate'
+  /scenario:
+    post:
+      tags:
+        - scenario
+      summary: CreateScenario
+      responses:
+        '200':
+          description: OK
+        '400':
+          description: Bad Request
+        '404':
+          description: Not Found such template
+      operationId: CreateScenario
+      x-stoplight:
+        id: pzjzzgqvv05xu
+      description: "create scenario with given model.\r\nIf there is a template - uses it, no matter how other arguments are passsed.\r\n\r\nПожалуйста, прокидывайте пустые массивы comments и children для корректной работы"
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: template_id
+          description: template to use (may be absent)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScenarioCreate'
+  '/scenario/{scenario_id}':
+    parameters:
+      - schema:
+          type: string
+        name: scenario_id
+        in: path
+        required: true
+    get:
+      tags:
+        - scenario
+      summary: GetScenario
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Scenario'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: GetScenario
+      x-stoplight:
+        id: esinxkyine1kw
+      parameters:
+        - schema:
+            type: integer
+          in: query
+          name: version_id
+          description: '0, если последняя, далее 1,2,3...'
+    delete:
+      tags:
+        - scenario
+      summary: DeleteScenario
+      responses:
+        '200':
+          description: OK
+        '401':
+          description: Unauthorized
+        '404':
+          description: Not Found
+      operationId: DeleteScenario
+      x-stoplight:
+        id: hv4qqmjjpqje1
+      description: Delete scenario by its id
+    patch:
+      tags:
+        - scenario
+      summary: UpdateScenario
+      description: Обновление сценария. Можно указать только обновляемые поля. Изменения дочерних блоков и комментариев игнорируются.
+      operationId: UpdateScenario
+      parameters:
+        - name: scenario_id
+          in: path
+          description: ID сценария
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешное обновление
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Scenario'
+        '400':
+          description: Неверная структура данных
+        '401':
+          description: Unauthorized
+        '404':
+          description: Сценарий не найден
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScenarioCreate'
+      x-stoplight:
+        id: update-scenario
+  '/scenario/versions/{scenario_id}':
+    get:
+      tags:
+        - scenario
+      summary: GetScenarioVersions
+      description: Получение версий сценария
+      operationId: GetScenarioVersions
+      parameters:
+        - name: scenario_id
+          in: path
+          description: ID сценария
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Успешный запрос
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ScenarioVersion'
+        '401':
+          description: Unauthorized
+        '404':
+          description: Сценарий не найден
+      x-stoplight:
+        id: get-scenario-versions
+  /scenario/user-scenario:
+    get:
+      tags:
+        - scenario
+      summary: GetUserScenario (id берется из данных авторизации)
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Scenario'
+        '401':
+          description: Unauthorized
+        '404':
+          description: No such user
+      operationId: GetUserScenario
+      x-stoplight:
+        id: artjjz8x4kw3y
+      description: 'Получить все сценарии, которые связаны с этим пользователем'
+  '/comment/{scenario_id}/{block_id}':
+    parameters:
+      - schema:
+          type: string
+        name: scenario_id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: block_id
+        in: path
+        required: true
+    post:
+      summary: PostComment
+      tags:
+        - comments
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentCreateResponse'
+      operationId: post-comments-scenario_id-block_id
+      x-stoplight:
+        id: brc7md65fjeqc
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+  '/comments/{scenario_id}/{block_id}':
+    parameters:
+      - schema:
+          type: string
+        name: scenario_id
+        in: path
+        required: true
+      - schema:
+          type: string
+        name: block_id
+        in: path
+        required: true
+    get:
+      summary: GetCommentByScenarioIdOrBockId
+      tags:
+        - comments
+      responses:
+        '200':
+          $ref: '#/components/responses/CommentCreateResponse'
+      operationId: get-comments-scenario_id-block_id
+      x-stoplight:
+        id: 1rjduw6cd7ldn
+      description: "Получение комментариев для заданного scenario_id и block_id.\r\nПоле scenario_id - обязательное. "
+  '/comment_reply/{comment_id}':
+    parameters:
+      - schema:
+          type: string
+        name: comment_id
+        in: path
+        required: true
+    post:
+      summary: ReplyComment
+      tags:
+        - comments
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentCreateResponse'
+      operationId: get-comment_reply-comment_id
+      x-stoplight:
+        id: yutmn1iaawjy8
+      description: Добавляет коммент который отвечает на коммент с заданным id
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+  /blocks/move:
+    post:
+      summary: MoveBlock
+      tags:
+        - blocks
+      responses:
+        '200':
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+              examples:
+                Example 1:
+                  value: success
+      operationId: get-blocks-move
+      x-stoplight:
+        id: 3tveif3p3u1nr
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MoveBlockRequest'
+  /templates/scenario:
+    get:
+      tags:
+        - templates
+      summary: GetScenarioTemplates
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ScenarioTemplate'
+      operationId: get-templates-scenario
+      x-stoplight:
+        id: 8q5o96kiysy16
+      parameters:
+        - schema:
+            type: boolean
+          in: query
+          name: is_popular
+          description: 'Если указать true, вернет только популярные шаблоны сценариев. Можно комбинировать с другими параметрами'
+        - schema:
+            type: string
+          in: query
+          name: category
+          description: 'Если указать, выведутся только шаблоны определенной категории (например, education, entertainment, business)   '
+  /templates/blocks:
+    get:
+      summary: GetBlockTemplates
+      tags:
+        - templates
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/BlockTemplate'
+          headers: {}
+        '404':
+          description: Not Found
+        '500':
+          description: Internal Server Error
+      operationId: get-templates-blocks
+      x-stoplight:
+        id: 4tizmzoewrnw4
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: tag
+          description: 'тэги, по которым ищем шаблоны блоков. Можно указать несколько. Тогда выведутся шаблоны, у которых есть все эти тэги, и, быть может, еще какие-то'
+  /auth/yandex:
+    get:
+      tags:
+        - auth
+      summary: Авторизация через Яндекс OAuth code
+      description: |
+        Получение токена по коду авторизации Яндекс OAuth.
+      operationId: getYandexAuthToken
+      parameters:
+        - name: code
+          in: query
+          description: 'Код авторизации, полученный от Яндекс OAuth'
+          required: true
+          schema:
+            type: string
+          example: AQAAAA...
+      responses:
+        '200':
+          description: Успешный ответ с токеном авторизации
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+                    description: Токен сессии для доступа к API
+                required:
+                  - token
+              example:
+                token: 550e8400e29b41d4a716446655440000
+        '400':
+          description: Отсутствует обязательный параметр или неверный запрос
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+              example:
+                error: Missing code parameter
+        '500':
+          description: Внутренняя ошибка сервера
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+              example:
+                error: Failed to get Yandex user info
+  /auth/check:
+    get:
+      tags:
+        - auth
+      summary: Проверка авторизации пользователя
+      description: |
+        Эндпоинт для проверки, что пользователь авторизован.
+      operationId: checkAuth
+      responses:
+        '200':
+          description: Authorized
+        '401':
+          description: Unauthorized
+  /user/info:
+    get:
+      tags:
+        - user
+      summary: Получить информацию о текущем пользователе
+      description: 'Возвращает имя, email и URL аватара пользователя.'
+      responses:
+        '200':
+          description: Информация о пользователе
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                    example: Иван Иванов
+                  email:
+                    type: string
+                    format: email
+                    example: ivan@example.com
+                  avatar_url:
+                    type: string
+                    format: uri
+                    example: 'https://avatars.yandex.net/get-yapic/someavatarid/islands-200'
+        '401':
+          description: Unauthorized
+components:
+  schemas:
+    Block:
+      type: object
+      x-stoplight:
+        id: skekdr6uk13v9
+      required:
+        - _id
+        - title
+      properties:
+        _id:
+          type: string
+          example: my-id
+          x-stoplight:
+            id: 8rzgdtdlbv5hf
+        block_id:
+          type: string
+          example: 689f0afbf44e2e29060dfab2
+        title:
+          type: string
+          example: suber-block
+        location:
+          type: string
+          example: hall
+        start:
+          type: integer
+          example: 1675219600000
+        duration:
+          type: integer
+          example: 40
+        color:
+          type: string
+          example: '#20B2AA'
+        roles:
+          type: array
+          example:
+            - techinician
+            - keker
+            - loler
+          items:
+            type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Block'
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+        content:
+          type: string
+          example: This is the most important block of all blocks
+        is_active:
+          type: boolean
+          x-stoplight:
+            id: t9jbv51qrxufa
+      title: ''
+    BlockCreate:
+      type: object
+      x-stoplight:
+        id: skekdr6uk13v9
+      required:
+        - _id
+        - title
+      properties:
+        title:
+          type: string
+          example: suber-block
+        location:
+          type: string
+          example: hall
+        start:
+          type: integer
+          example: 1675219600000
+        duration:
+          type: integer
+          example: 40
+        color:
+          type: string
+          example: '#20B2AA'
+        roles:
+          type: array
+          example:
+            - techinician
+            - keker
+            - loler
+          items:
+            type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Block'
+          example: []
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+          example: []
+        description:
+          type: string
+          example: This is the most important block of all blocks
+        is_active:
+          type: boolean
+          x-stoplight:
+            id: t9jbv51qrxufa
+      title: ''
+    BlockUpdate:
+      type: object
+      x-stoplight:
+        id: skekdr6uk13v9
+      required:
+        - title
+      properties:
+        scenario_id:
+          type: string
+          example: 689f0afbf44e2e29060dfab2
+        parent_id:
+          type: string
+          example: 689f0afbf44e2e29060dfab2
+        title:
+          type: string
+          example: suber-block
+        location:
+          type: string
+          example: hall
+        start:
+          type: integer
+          example: 1675219600000
+        duration:
+          type: integer
+          example: 40
+        color:
+          type: string
+          example: '#20B2AA'
+        roles:
+          type: array
+          example:
+            - techinician
+            - keker
+            - loler
+          items:
+            type: string
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/Block'
+          example: []
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+          example: []
+        description:
+          type: string
+          example: This is the most important block of all blocks
+        is_active:
+          type: boolean
+          x-stoplight:
+            id: t9jbv51qrxufa
+      title: ''
+    BlockPreview:
+      type: object
+      x-stoplight:
+        id: kstxcol7in41f
+      required:
+        - title
+      properties:
+        title:
+          type: string
+          example: suber-block
+        location:
+          type: string
+          example: hall
+        block_id:
+          type: string
+          example: 689f0afbf44e2e29060dfab2
+        start:
+          type: integer
+          example: 1675219600000
+        duration:
+          type: integer
+          example: 40
+        roles:
+          type: array
+          example:
+            - techinician
+            - keker
+            - loler
+          items:
+            type: string
+        comments:
+          type: array
+          items:
+            type: Comment
+            $ref: '#/components/schemas/Comment'
+        description:
+          type: string
+          example: This is the most important block of all blocks
+        children:
+          type: array
+          x-stoplight:
+            id: 2l845yebkizc8
+          items:
+            $ref: '#/components/schemas/Comment'
+        color:
+          type: string
+          x-stoplight:
+            id: yd4tq666huhg2
+      title: ''
+      description: ''
+    Comment:
+      type: object
+      x-stoplight:
+        id: g3y23e4eorkqe
+      required:
+        - description
+        - creator_id
+        - line_position
+      properties:
+        creator_id:
+          type: string
+          example: cmt1a2b3c
+          x-stoplight:
+            id: kvm07b2fptgut
+        description:
+          type: string
+          example: В документации есть неточность в разделе про индексы
+        line_position:
+          type: integer
+          x-stoplight:
+            id: 94gnf7yxs4wzr
+    CommentCreate:
+      type: object
+      x-stoplight:
+        id: 6t2pi1suirwey
+      required:
+        - description
+        - creator_id
+        - target_id
+        - target_type
+      properties:
+        description:
+          type: string
+          example: В документации есть неточность в разделе про индексы
+        creator_id:
+          type: string
+          example: user123
+        target_id:
+          type: string
+          description: 'ID блока или сценария, к которому привязывается комментарий'
+          example: blk5f4e3d
+        target_type:
+          type: string
+          enum:
+            - block
+            - scenario
+          description: Тип цели - блок или сценарий
+          example: block
+    Error:
+      title: Error
+      x-stoplight:
+        id: nqjywn9iq05a0
+      type: object
+      properties:
+        error:
+          type: string
+          x-stoplight:
+            id: cap1v6z6jpfeh
+    Scenario:
+      title: Scenario
+      x-stoplight:
+        id: bwydmdiloqwqv
+      type: object
+      properties:
+        _id:
+          type: string
+          x-stoplight:
+            id: 3f81iwejmsplz
+        name:
+          type: string
+          x-stoplight:
+            id: 940scj3y2rsf5
+        location:
+          type: string
+          x-stoplight:
+            id: 940scj3y2rsf5
+          example: Red rose
+        status:
+          type: string
+          x-stoplight:
+            id: 5t0rko3ycemjq
+        start:
+          type: integer
+          x-stoplight:
+            id: 0sbcbkq95u5ji
+        director_id:
+          type: string
+          x-stoplight:
+            id: kuu5ipqsn71fk
+          example: 68986e4568de3274660a97cc
+        description:
+          type: string
+          x-stoplight:
+            id: th1fh0g8at8u5
+    ScenarioCreate:
+      title: ScenarioCreate
+      x-stoplight:
+        id: bwydmdiloqwqv
+      type: object
+      properties:
+        name:
+          type: string
+          x-stoplight:
+            id: 940scj3y2rsf5
+        status:
+          type: string
+          x-stoplight:
+            id: 5t0rko3ycemjq
+        start_time:
+          type: integer
+          x-stoplight:
+            id: 0sbcbkq95u5ji
+        location:
+          type: string
+          x-stoplight:
+            id: 940scj3y2rsf5
+          example: Red roze
+        children:
+          x-stoplight:
+            id: dcix0ghy7a4o2
+          type: array
+          items:
+            $ref: '#/components/schemas/Block'
+          example: []
+        comments:
+          x-stoplight:
+            id: dcix0ghy7a4o2
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+          example: []
+        creator_id:
+          type: string
+          x-stoplight:
+            id: kuu5ipqsn71fk
+          example: 68986e4568de3274660a97cc
+        duration:
+          type: integer
+          x-stoplight:
+            id: vdstn8rofws01
+        description:
+          type: string
+          x-stoplight:
+            id: th1fh0g8at8u5
+        participants:
+          type: array
+          x-stoplight:
+            id: kcx9k246mgpit
+          items:
+            $ref: '#/components/schemas/Author'
+    ScenarioPreview:
+      title: Scenario
+      x-stoplight:
+        id: n981w6ap0hz2w
+      type: object
+      properties:
+        _id:
+          type: string
+          x-stoplight:
+            id: 4tata1v0cxfnc
+        name:
+          type: string
+        status:
+          type: string
+        start:
+          type: integer
+        blocks:
+          type: array
+          items:
+            $ref: '#/components/schemas/Block'
+        director_id:
+          type: string
+        time:
+          type: integer
+        description:
+          type: string
+        updated_at:
+          type: integer
+        updated_by:
+          $ref: '#/components/schemas/Author'
+        participants:
+          type: array
+          items:
+            $ref: '#/components/schemas/Author'
+    UserRole:
+      title: UserRole
+      x-stoplight:
+        id: nw135csci5wts
+      type: object
+      properties:
+        user_id:
+          type: string
+          x-stoplight:
+            id: bbvgwouzq7c7f
+        role:
+          type: string
+          x-stoplight:
+            id: runl2xjjq795r
+    Author:
+      title: Author
+      x-stoplight:
+        id: 0ddr1pfc4wt3p
+      type: object
+      properties:
+        name:
+          type: string
+          x-stoplight:
+            id: 31r0m3hd6hyin
+        avatar:
+          type: string
+          x-stoplight:
+            id: yci1wq68l0f6v
+      description: ''
+    CommentCreateResponse:
+      title: CommentCreateResponse
+      x-stoplight:
+        id: wq7slvv3c6lio
+      type: object
+      properties:
+        success:
+          type: boolean
+          x-stoplight:
+            id: u9dwtpof8w7qg
+        id:
+          type: string
+          x-stoplight:
+            id: b287sravpvqwi
+        parent_type:
+          type: string
+          x-stoplight:
+            id: romrxt3h0wp0z
+      description: ''
+    MoveBlockRequest:
+      title: MoveBlockRequest
+      x-stoplight:
+        id: j9l91cknlwtwb
+      type: object
+      properties:
+        scenario_id:
+          type: string
+          x-stoplight:
+            id: n8etuyt3pjl0v
+        block_id:
+          type: string
+          x-stoplight:
+            id: gqwg1a3vvgd83
+        parent_block_id:
+          type: string
+          x-stoplight:
+            id: jejdjhsxrsmmg
+        position:
+          type: integer
+          x-stoplight:
+            id: ow4qffim6o7dh
+    BlockTemplate:
+      title: BlockTemplate
+      x-stoplight:
+        id: auzx2k321p17p
+      type: object
+      properties:
+        _id:
+          type: string
+          x-stoplight:
+            id: ohs1536t0gdec
+        title:
+          type: string
+          x-stoplight:
+            id: 77f7y46fokbp7
+        location:
+          type: string
+          x-stoplight:
+            id: 0a5cv3ndkn0fw
+        roles:
+          type: array
+          x-stoplight:
+            id: klht7dos36m2g
+          items:
+            x-stoplight:
+              id: lyijsdj9ktlmg
+            type: string
+        start_time:
+          type: integer
+          x-stoplight:
+            id: fjtlixaycguoe
+        duration:
+          type: integer
+          x-stoplight:
+            id: 3i518l77v04on
+        description:
+          type: string
+          x-stoplight:
+            id: jft90v0yqea84
+        color:
+          type: string
+          x-stoplight:
+            id: v3rgrx6o9mlke
+    ScenarioTemplate:
+      title: ScenarioTemplate
+      x-stoplight:
+        id: bti2it4n7cw89
+      type: object
+      properties:
+        _id:
+          type: string
+          x-stoplight:
+            id: gi0grp0dqdrsh
+        name:
+          type: string
+          x-stoplight:
+            id: xtf0m8de7rmfx
+        description:
+          type: string
+          x-stoplight:
+            id: 1w1tz0knz9qt9
+        location:
+          type: string
+          x-stoplight:
+            id: hiw7af0bm0vv1
+        num_blocks:
+          type: integer
+          x-stoplight:
+            id: ghk1hf0wmku10
+        blocks:
+          type: array
+          x-stoplight:
+            id: dkwh68c59dndj
+          items:
+            $ref: '#/components/schemas/Block'
+    ScenarioVersion:
+      title: ScenarioVersion
+      x-stoplight:
+        id: bti2it4n7cw89
+      type: object
+      properties:
+        author:
+          type: string
+          x-stoplight:
+            id: xtf0m8de7rmfx
+          example: Petya
+        timestamp:
+          type: integer
+          x-stoplight:
+            id: 1w1tz0knz9qt9
+          example: 1928319824923980
+  responses:
+    CommentCreateResponse:
+      description: ''
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Comment'
