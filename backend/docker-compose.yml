@@ -1,0 +1,74 @@
+version: "2.3"
+
+services:
+    mongodb:
+        image: mongo:latest
+        container_name: mongodb
+        environment:
+          MONGO_INITDB_ROOT_USERNAME: admin
+          MONGO_INITDB_ROOT_PASSWORD: secret
+          MONGO_INITDB_DATABASE: scenariosus
+        ports:
+          - "27017:27017"
+        volumes:
+          - mongodb_data:/data/db
+        restart: unless-stopped
+        networks:
+          - mongodb
+        healthcheck:
+          test: echo 'db.runCommand("ping").ok' | mongosh -u admin -p secret --quiet | grep 1
+          interval: 10s
+          timeout: 5s
+          retries: 5
+
+
+    scenariosus-container:
+        image: ghcr.io/userver-framework/ubuntu-22.04-userver:latest
+        privileged: true
+        env_file:
+          - .env
+        environment:
+          - PREFIX=${PREFIX:-~/.local}
+          - CC
+          - CCACHE_DIR=/scenariosus/.ccache
+          - CCACHE_HASHDIR
+          - CCACHE_NOHASHDIR
+          - CCACHE_PREFIX
+          - CCACHE_SIZE
+          - CMAKE_OPTS
+          - CORES_DIR=/cores
+          - CXX
+          - MAKE_OPTS
+          - YANDEX_CLIENT_ID=${VITE_YANDEX_CLIENT_ID}
+          - YANDEX_CLIENT_SECRET=${VITE_YANDEX_CLIENT_SECRET}
+        volumes:
+          - .:/scenariosus:rw
+          - ${TC_CORES_DIR:-./.cores}:/cores:rw
+        ports:
+          - 8080:8080
+          - 8081:8081
+        working_dir: /scenariosus
+        entrypoint:
+          - ./run_as_user.sh
+        depends_on:
+          - mongodb
+          - mongo-init
+        networks:
+          - mongodb
+    
+    mongo-init:
+      build: ./src/mongo_init
+      depends_on:
+        - mongodb
+      restart: on-failure
+      environment:
+        MONGO_URI: "mongodb://admin:secret@mongodb:27017/scenariosus?authSource=admin"
+      networks:
+          - mongodb
+
+volumes:
+    mongodb_data:
+
+networks:
+    mongodb:
+        driver: bridge

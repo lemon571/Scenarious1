@@ -1,0 +1,236 @@
+config_vars: /home/user/.local/etc/scenariosus/config_vars.yaml
+
+components_manager:
+    task_processors:
+        main-task-processor:
+            worker_threads: $worker-threads
+
+        fs-task-processor:
+            worker_threads: $worker-fs-threads
+
+    default_task_processor: main-task-processor
+
+    components:                       # Configuring components that were registered via component_list
+        server:
+            listener:                 # configuring the main listening socket...
+                port: $server-port           # ...to listen on this port and...
+                task_processor: main-task-processor    # ...process incoming requests on this task processor.
+            listener-monitor:
+                port: $metrics-port
+                task_processor: main-task-processor
+
+        logging:
+            fs-task-processor: fs-task-processor
+            loggers:
+                default:
+                    file_path: '@stderr'
+                    level: $logger-level
+                    overflow_behavior: discard  # Drop logs if the system is too busy to write them down.
+            
+
+        # Dynamic config options. Cache is disabled, updates are disabled.
+        dynamic-config:
+            # For most of userver dynamic configs, defaults are used, some are overridden here.
+            # See userver "dynamic config" docs for what configs exist.
+            defaults:
+                HTTP_CLIENT_CONNECTION_POOL_SIZE: 1000
+
+        testsuite-support: {}
+        auth-middleware: {}
+        auth-pipeline-builder: {}
+        cors-middleware: {}
+        cors-pipeline-builder: {}
+        cors-auth-pipeline-builder: {}
+
+        default-server-middleware-pipeline-builder:
+            append: []
+
+        http-client:
+            load-enabled: $is_testing
+            fs-task-processor: fs-task-processor
+
+        dns-client:
+            fs-task-processor: fs-task-processor
+
+        tests-control:
+            load-enabled: $is-testing
+            path: /tests/{action}
+            method: POST
+            task_processor: main-task-processor
+        
+        handler-update-block:         # Update scenario endpoint
+            path: /blocks/{block_id}
+            method: PATCH,OPTIONS
+            task_processor: main-task-processor
+            middlewares:
+                pipeline-builder: cors-pipeline-builder
+
+        handler-update-block-children:
+            path: /blocks/{block_id}/children
+            method: PATCH,OPTIONS
+            task_processor: main-task-processor
+            middlewares:
+                pipeline-builder: cors-pipeline-builder
+
+        handler-ping:
+            path: /ping
+            method: GET
+            task_processor: main-task-processor
+            throttling_enabled: false
+            url_trailing_slash: strict-match
+
+        handler-create-scenario:         # Create scenario endpoint
+            path: /scenario
+            method: POST,OPTIONS
+            task_processor: main-task-processor
+            middlewares:
+                pipeline-builder: cors-pipeline-builder
+
+        handler-post-comment:            # Our comment handler.
+            path: /comment/{scenario_id}/{block_id}  # Registering handler by URL '/comment/{scenario_id}/{block_id}'.
+            method: POST,OPTIONS                  # It will only reply to POST requests.
+            task_processor: main-task-processor
+            middlewares:
+                pipeline-builder: cors-pipeline-builder
+
+        handler-comment-reply:           # Our comment reply handler.
+            path: /comment_reply/{comment_id}  # Registering handler by URL '/comment_reply/{comment_id}'.
+            method: POST,OPTIONS                  # It will only reply to POST requests.
+            task_processor: main-task-processor
+            middlewares:
+                pipeline-builder: cors-pipeline-builder
+
+        handler-update-scenario:         # Update scenario endpoint
+            path: /scenario/{id}
+            method: PATCH,OPTIONS
+            task_processor: main-task-processor
+            middlewares:
+                pipeline-builder: cors-pipeline-builder
+
+        mongo-db-1:
+            dbconnection: $mongo-connection
+
+        handler-get-block-by-id:
+            path: /blocks/{block_id}
+            method: GET
+            task_processor: main-task-processor
+            middlewares:
+                pipeline-builder: cors-pipeline-builder
+        
+        handler-get-blocks-by-scenario-id:
+            path: /blocks/get-blocks-by-scenario-id/{scenario_id}
+            method: GET,OPTIONS
+            task_processor: main-task-processor
+            middlewares:
+                pipeline-builder: cors-pipeline-builder
+
+        handler-latest-get-block:
+            path: /blocks/latest/{scenario_id}/{block_id}
+            method: GET,OPTIONS
+            task_processor: main-task-processor
+            middlewares:
+                pipeline-builder: cors-pipeline-builder
+
+        handler-create-block:             # Our mongo handler.
+            path: /blocks/{scenario_id}/{block_id}           # Registering handler by URL '/hello-mongo'.
+            method: POST,OPTIONS              # It will only reply to GET (HEAD) and POST requests.
+            task_processor: main-task-processor
+            middlewares:
+                pipeline-builder: cors-pipeline-builder
+
+        handler-move-block:           # Move block handler.
+            path: /blocks/move        # Endpoint for moving blocks within scenario
+            method: POST,OPTIONS
+            task_processor: main-task-processor
+            middlewares:
+                pipeline-builder: cors-pipeline-builder
+
+        handler-get-comments:         # Get comments handler.
+            path: /comments/{scenario_id}/{block_id}  # Get comments for a scenario or specific block
+            method: GET,OPTIONS
+            task_processor: main-task-processor
+            middlewares:
+                pipeline-builder: cors-pipeline-builder
+        
+        handler-delete-block:         # Get comments handler.
+            path: /blocks/{block_id}  # Get comments for a scenario or specific block
+            method: DELETE
+            task_processor: main-task-processor
+            middlewares:
+                pipeline-builder: cors-pipeline-builder
+        
+        handler-delete-scenario:         # Get comments handler.
+            path: /scenario/{scenario_id}  # Get comments for a scenario or specific block
+            method: DELETE
+            task_processor: main-task-processor
+            middlewares:
+                pipeline-builder: cors-pipeline-builder
+
+        handler-get-scenario-by-id:
+            path: /scenario/{scenario_id}  # Get comments for a scenario or specific block
+            method: GET
+            task_processor: main-task-processor
+            middlewares:
+                pipeline-builder: cors-pipeline-builder
+
+        handler-get-versions-by-scenario-id:
+            path: /scenario/versions/{scenario_id}  # Get versions for a scenario
+            method: GET,OPTIONS
+            task_processor: main-task-processor
+            middlewares:
+                pipeline-builder: cors-pipeline-builder
+
+        handler-get-scenarios-by-user-id:
+            path: /scenario/user-scenario  # Get scenarios avalible for user
+            method: GET,OPTIONS
+            task_processor: main-task-processor
+            middlewares:
+                pipeline-builder: cors-pipeline-builder
+
+        handler-scenario-update-blocks:         # Update scenario blocks endpoint
+            path: /scenario/{scenario_id}/blocks
+            method: PATCH,OPTIONS
+            task_processor: main-task-processor
+            middlewares:
+                pipeline-builder: cors-pipeline-builder
+
+        handler-server-monitor:       # Server monitor handler.
+            path: /server-monitor
+            method: GET,OPTIONS
+            task_processor: main-task-processor
+            format: prometheus
+        
+        handler-get-scenario-templates:
+            path: /templates/scenario
+            method: GET,OPTIONS
+            task_processor: main-task-processor
+            middlewares:
+                pipeline-builder: cors-pipeline-builder
+        
+        handler-get-block-templates:
+            path: /templates/blocks
+            method: GET,OPTIONS
+            task_processor: main-task-processor
+            middlewares:
+                pipeline-builder: cors-pipeline-builder
+
+        handler-auth-yandex:
+            path: /auth/yandex
+            method: GET,OPTIONS
+            task_processor: main-task-processor
+            middlewares:
+                pipeline-builder: cors-pipeline-builder
+
+        handler-auth-check:
+            path: /auth/check
+            method: GET,OPTIONS
+            task_processor: main-task-processor
+            middlewares:
+                pipeline-builder: cors-pipeline-builder
+
+        handler-get-user-info:
+            path: /user/info
+            method: GET,OPTIONS
+            task_processor: main-task-processor
+            middlewares:
+                pipeline-builder: cors-pipeline-builder
